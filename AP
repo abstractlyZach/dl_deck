@@ -10,17 +10,15 @@ class CardDeck:
             "Move # of spaces up to your speed.", "Move # of spaces up to your speed.",
             "Gain 1 Reaction.", "Gain 1 Reaction.", "Gain 1 Reaction.", "Gain 1 Reaction.",
             "Gain 1 Reaction.", "Gain 1 Reaction.", "Gain 1 Reaction.", "Gain 1 Reaction.",
-            "Move # of spaces up to 2x your speed.", "Move # of spaces up to 2x your speed.",
-            "Move # of spaces up to 2x your speed.", "Move # of spaces up to 2x your speed.",
-            "Discard this card, draw 2 cards", "Discard this card, draw 2 cards",
-            "Discard this card, draw 2 cards", "Discard this card, draw 2 cards",
-            "Move # of spaces up to your speed, draw 1 card.", "Move # of spaces up to your speed, draw 1 card.",
-            "Move # of spaces up to your speed, draw 1 card.", "Move # of spaces up to your speed, draw 1 card.",
-            "Gain 1 Reaction, draw 2 card.", "Gain 1 Reaction, draw 2 cards.",
-            "Gain 1 Reaction, draw 2 card.", "Gain 1 Reaction, draw 2 cards.",
+            "Cast a Spell.", "Cast a Spell.", "Cast a Spell.", "Cast a Spell.",
+            "Discard this card, draw 3 cards", "Discard this card, draw 3 cards",
+            "Discard this card, draw 3 cards", "Discard this card, draw 3 cards",
+            "Gain 2 Stunts, draw 1 card.", "Gain 2 Stunts, draw 1 card.",
+            "Gain 2 Stunts, draw 1 card.", "Gain 2 Stunts, draw 1 card.",
+            "Gain 1 Reaction, draw 1 card.", "Gain 1 Reaction, draw 1 card.",
+            "Gain 1 Reaction, draw 1 card.", "Gain 1 Reaction, draw 1 card.",
             "Draw a # of cards = proficiency bonus.", "Draw a # of cards = proficiency bonus.",
-            "Draw a # of cards = proficiency bonus.", "Draw a # of cards = proficiency bonus.",
-            "Boon.", "Boon."
+            "Draw a # of cards = proficiency bonus.", "Draw a # of cards = proficiency bonus."
         ]
         self.discard_pile = []
         self.hand = []
@@ -49,7 +47,7 @@ class CardDeck:
     def auto_process_special_cards(self):
         """
         Automatically scans your hand for any card that says:
-          - "Discard this card, draw 2 cards" or 
+          - "Discard this card, draw 3 cards" or 
           - "Draw a # of cards = proficiency bonus"
         When found, the card is removed (moved to the discard pile)
         and its effect is executed (drawing extra cards).
@@ -61,12 +59,12 @@ class CardDeck:
             while i < len(self.hand):
                 card = self.hand[i]
                 lower_card = card.lower()
-                if "discard this card, draw 2 cards" in lower_card:
+                if "discard this card, draw 3 cards" in lower_card:
                     print(f"Auto-processing special card: {card}")
                     # Remove the special card from hand and add it to the discard pile
                     self.discard_pile.append(self.hand.pop(i))
-                    # Draw 2 cards—but avoid triggering auto-processing in that call
-                    self.draw_cards(2, auto_process=False)
+                    # Draw 3 cards—but avoid triggering auto-processing in that call
+                    self.draw_cards(3, auto_process=False)
                     special_found = True
                     # Break to re-scan the (updated) hand from the start
                     break

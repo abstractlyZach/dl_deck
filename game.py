@@ -56,7 +56,7 @@ class GameState:
     _deck: Pile
     _hand: Pile
     _discard: Pile
-    _action_stack: list[Callable]
+    _draw_request_stack: list[Callable[[], Card]]
 
     def __init__(self, deck: Pile = None, hand: Pile = None, discard: Pile = None):
         if not deck:
@@ -71,7 +71,7 @@ class GameState:
             discard = []
         self._discard = discard
 
-        self._action_stack = []
+        self._draw_request_stack = []
 
     def return_all_cards(self):
         for pile in [self._hand, self._discard]:
@@ -79,18 +79,17 @@ class GameState:
                 card = pile.draw()
                 self._deck.insert_top(card)
         self._deck.shuffle()
-        
-    def get_hand_str(self)->str:
+
+    def get_hand_str(self) -> str:
         return str(self._hand)
 
-    def draw_cards(self, x:int)->None:
-        self._action_stack = [self._deck.draw for _ in range(x)]
-        self._process_action_stack()
+    def draw_cards(self, x: int) -> None:
+        self._draw_request_stack = [self._deck.draw for _ in range(x)]
+        self._process_draw_request_stack()
 
-    def _process_action_stack(self)->None:
-        while self._action_stack:
-            action = self._action_stack.pop()
-            effect = action()
-            if effect.iscard():
-                effect.ondraw()
+    def _process_draw_request_stack(self) -> None:
+        while self._draw_request_stack:
+            card_draw_action = self._draw_request_stack.pop()
+            card = card_draw_action()
+            card.on_draw()
 

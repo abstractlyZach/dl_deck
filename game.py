@@ -12,6 +12,11 @@ class Pile:
     # Bottom of Pile is the 0th index.
     _cards: list[Card]
 
+    def __init__(self, cards=None):
+        if not cards:
+            cards = []
+        self._cards = cards
+
     def __str__(self):
         text_lines = []
         for i, card in enumerate(self._cards):
@@ -56,22 +61,22 @@ class GameState:
     _deck: Pile
     _hand: Pile
     _discard: Pile
-    _draw_request_stack: list[Callable[[], Card]]
+    _game_action_stack: list[Callable[[], Card]]
 
     def __init__(self, deck: Pile = None, hand: Pile = None, discard: Pile = None):
         if not deck:
-            deck = []
+            deck = Pile()
         self._deck = deck
 
         if not hand:
-            hand = []
+            hand = Pile()
         self._hand = hand
 
         if not discard:
-            discard = []
+            discard = Pile()
         self._discard = discard
 
-        self._draw_request_stack = []
+        self._game_action_stack = []
 
     def return_all_cards(self):
         for pile in [self._hand, self._discard]:
@@ -84,12 +89,12 @@ class GameState:
         return str(self._hand)
 
     def draw_cards(self, x: int) -> None:
-        self._draw_request_stack = [self._deck.draw for _ in range(x)]
+        self._game_action_stack = [self._deck.draw for _ in range(x)]
         self._process_draw_request_stack()
 
     def _process_draw_request_stack(self) -> None:
-        while self._draw_request_stack:
-            card_draw_action = self._draw_request_stack.pop()
+        while self._game_action_stack:
+            card_draw_action = self._game_action_stack.pop()
             card = card_draw_action()
             card.on_draw()
 

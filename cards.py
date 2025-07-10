@@ -20,6 +20,9 @@ class Card:
     def on_draw(self) -> OnCardDrawAction:
         return DoNothing()
 
+    def __eq__(self, other):
+        return self._id == other._id
+
 
 class Action(Card):
     _id = 0

@@ -62,7 +62,7 @@ class NoCardsInPileException(RuntimeError):
     pass
 
 
-def get_pile_from_ids(ids: Iterable[int]) -> Pile:
+def get_pile_from_ids(ids: Iterable[cards.CardIds]) -> Pile:
     return Pile(
         [
             cards.get_card_from_id(_id)

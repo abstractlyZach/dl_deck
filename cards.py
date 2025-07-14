@@ -91,7 +91,7 @@ class Boon(Card):
     _description = "Boon."
 
 
-def get_card_from_id(_id: int) -> Card:
+def get_card_from_id(_id: CardIds) -> Card:
     match _id:
         case CardIds.ACTION:
             return Action()

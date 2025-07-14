@@ -93,9 +93,9 @@ class GameState:
 
     def _on_draw(self, card: Card):
         match card._id:
-            case Loot._id:
+            case cards.CardIds.LOOT:
                 self._game_action_stack.append(DISCARD)
-            case ProficientDraw._id:
+            case cards.CardIds.PROFICIENT_DRAW:
                 for _ in range(self._proficiency_bonus):
                     self._game_action_stack.append(DRAW)
             case _:

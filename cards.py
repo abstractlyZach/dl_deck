@@ -1,11 +1,3 @@
-class OnCardDrawAction:
-    pass
-
-
-class DoNothing(OnCardDrawAction):
-    pass
-
-
 class Card:
     _id: int
     _name: str
@@ -16,9 +8,6 @@ class Card:
 
     def __str__(self):
         return f"{self._description}"
-
-    def on_draw(self) -> OnCardDrawAction:
-        return DoNothing()
 
     def __eq__(self, other):
         if isinstance(other, Card):

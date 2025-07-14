@@ -3,11 +3,13 @@ import random
 from collections.abc import Callable
 from typing import Iterable
 
+import cards
 from cards import Card, Loot, ProficientDraw
 
 DRAW: str = "draw"
 DISCARD: str = "discard"
 DEFAULT_PROFICIENCY_BONUS: int = 4
+
 
 class Pile:
     """A collection of Cards"""
@@ -41,7 +43,7 @@ class Pile:
             raise NoCardsInPileException("Attempted to draw from an empty Pile.")
         return self._cards.pop()
 
-    def draw_all(self)->Iterable[Card]:
+    def draw_all(self) -> Iterable[Card]:
         yield self._cards.pop()
 
     def insert_x_from_bottom(self, card: Card, x: int) -> None:
@@ -60,6 +62,15 @@ class NoCardsInPileException(RuntimeError):
     pass
 
 
+def get_pile_from_ids(ids: Iterable[int]) -> Pile:
+    return Pile(
+        [
+            cards.get_card_from_id(_id)
+            for _id in ids
+        ]
+    )
+
+
 class GameState:
     """Manager of the game's state.
 
@@ -71,7 +82,8 @@ class GameState:
     _proficiency_bonus: int
     _game_action_stack: list[str]
 
-    def __init__(self, proficiency_bonus: int = DEFAULT_PROFICIENCY_BONUS, deck: Pile = None, hand: Pile = None, discard: Pile = None):
+    def __init__(self, proficiency_bonus: int = DEFAULT_PROFICIENCY_BONUS, deck: Pile = None, hand: Pile = None,
+                 discard: Pile = None):
         if not deck:
             deck = Pile()
         self._deck = deck
@@ -118,7 +130,7 @@ class GameState:
         else:
             raise Exception("unrecognized game action")
 
-    def _draw_card(self)-> None:
+    def _draw_card(self) -> None:
         # Make sure that recycling the discard pile will give us a possible draw
         if self._discard.size() <= 0 and self._deck.size() <= 0:
             # do nothing
@@ -132,7 +144,7 @@ class GameState:
         self._hand.insert_top(card)
         self._on_draw(card)
 
-    def _recycle_discard(self)-> None:
+    def _recycle_discard(self) -> None:
         discards = self._discard.draw_all()
         for card in discards:
             self._deck.insert_top(card)

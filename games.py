@@ -1,7 +1,7 @@
 from typing import Iterable
 
 import cards
-from cards import Card, Loot, ProficientDraw
+from cards import Card
 from piles import Pile, NoCardsInPileException
 
 DRAW: str = "draw"

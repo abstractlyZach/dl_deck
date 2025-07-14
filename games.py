@@ -46,6 +46,9 @@ class Pile:
     def draw_all(self) -> Iterable[Card]:
         yield self._cards.pop()
 
+    def get_all_ids(self) -> Iterable[cards.CardIds]:
+        return [card._id for card in self._cards]
+
     def insert_x_from_bottom(self, card: Card, x: int) -> None:
         """Inserts the card x away from the bottom of the Pile.
         """
@@ -108,6 +111,9 @@ class GameState:
 
     def get_hand_str(self) -> str:
         return str(self._hand)
+
+    def get_hand_card_ids(self) -> Iterable[cards.CardIds]:
+        return self._hand.get_all_ids()
 
     def draw_cards(self, x: int) -> None:
         for _ in range(x):

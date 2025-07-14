@@ -1,21 +1,6 @@
 import enum
 
 
-class Card:
-    _id: int
-    _name: str
-    _description: str
-
-    def __repr__(self):
-        return f"{self._name}"
-
-    def __str__(self):
-        return f"{self._description}"
-
-    def __eq__(self, other):
-        if isinstance(other, Card):
-            return self._id == other._id
-        return NotImplemented
 
 
 class CardIds(enum.Enum):
@@ -29,6 +14,22 @@ class CardIds(enum.Enum):
     SUPER_REACT = 7
     PROFICIENT_DRAW = 8
     BOON = 9
+
+class Card:
+    _id: CardIds
+    _name: str
+    _description: str
+
+    def __repr__(self):
+        return f"{self._name}"
+
+    def __str__(self):
+        return f"{self._description}"
+
+    def __eq__(self, other):
+        if isinstance(other, Card):
+            return self._id == other._id
+        return NotImplemented
 
 
 class Action(Card):

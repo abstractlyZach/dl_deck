@@ -21,8 +21,9 @@ def test_basic_draw():
     ])
     game = games.GameState(deck=deck)
     game.draw_cards(1)
-    # todo: actually check the hand by adding hand checking
-    assert game.get_hand_str() == "0: Gain 1 Action."
+    assert game.get_hand_card_ids() == [
+        cards.CardIds.ACTION
+    ]
 
 
 def test_trigger_shuffle_with_draw():
@@ -35,8 +36,11 @@ def test_trigger_shuffle_with_draw():
     ])
     game = games.GameState(deck=deck, discard=discard)
     game.draw_cards(3)
-    # todo: actually check the hand by adding hand checking
-    assert game.get_hand_str() == "0: Gain 1 Action.\n1: Gain 1 Action.\n2: Boon."
+    assert game.get_hand_card_ids() == [
+        cards.CardIds.ACTION,
+        cards.CardIds.ACTION,
+        cards.CardIds.BOON,
+    ]
 
 
 def test_drawing_when_deck_and_discard_are_empty():
@@ -44,4 +48,4 @@ def test_drawing_when_deck_and_discard_are_empty():
     discard = games.Pile([])
     game = games.GameState(deck=deck, discard=discard)
     game.draw_cards(1)
-    assert game.get_hand_str() == ""
+    assert game.get_hand_card_ids() == []

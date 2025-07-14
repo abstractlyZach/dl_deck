@@ -21,7 +21,9 @@ class Card:
         return DoNothing()
 
     def __eq__(self, other):
-        return self._id == other._id
+        if isinstance(other, Card):
+            return self._id == other._id
+        return NotImplemented
 
 
 class Action(Card):

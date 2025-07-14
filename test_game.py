@@ -4,37 +4,41 @@ import piles
 
 
 def test_pile_print():
-    deck = piles.get_pile_from_ids([
-        cards.CardIds.ACTION,
-        cards.CardIds.ACTION,
-    ])
-    assert str(deck) == \
-           """
+    deck = piles.get_pile_from_ids(
+        [
+            cards.CardIds.ACTION,
+            cards.CardIds.ACTION,
+        ]
+    )
+    assert (
+        str(deck)
+        == """
 0: Gain 1 Action.
 1: Gain 1 Action.
            """.strip()
+    )
 
 
 def test_basic_draw():
-    deck = piles.get_pile_from_ids([
-        cards.CardIds.ACTION,
-        cards.CardIds.ACTION,
-    ])
+    deck = piles.get_pile_from_ids(
+        [
+            cards.CardIds.ACTION,
+            cards.CardIds.ACTION,
+        ]
+    )
     game = games.GameState(deck=deck)
     game.draw_cards(1)
-    assert game.get_hand_card_ids() == [
-        cards.CardIds.ACTION
-    ]
+    assert game.get_hand_card_ids() == [cards.CardIds.ACTION]
 
 
 def test_trigger_shuffle_with_draw():
-    deck = piles.get_pile_from_ids([
-        cards.CardIds.ACTION,
-        cards.CardIds.ACTION,
-    ])
-    discard = piles.get_pile_from_ids([
-        cards.CardIds.BOON
-    ])
+    deck = piles.get_pile_from_ids(
+        [
+            cards.CardIds.ACTION,
+            cards.CardIds.ACTION,
+        ]
+    )
+    discard = piles.get_pile_from_ids([cards.CardIds.BOON])
     game = games.GameState(deck=deck, discard=discard)
     game.draw_cards(3)
     assert game.get_hand_card_ids() == [

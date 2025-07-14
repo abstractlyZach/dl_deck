@@ -44,8 +44,7 @@ class Pile:
         return [card._id for card in self._cards]
 
     def insert_x_from_bottom(self, card: Card, x: int) -> None:
-        """Inserts the card x away from the bottom of the Pile.
-        """
+        """Inserts the card x away from the bottom of the Pile."""
         self._cards.insert(x, card)
 
     def insert_top(self, card: Card) -> None:
@@ -60,9 +59,4 @@ class NoCardsInPileException(RuntimeError):
 
 
 def get_pile_from_ids(ids: Iterable[CardIds]) -> Pile:
-    return Pile(
-        [
-            cards.get_card_from_id(_id)
-            for _id in ids
-        ]
-    )
+    return Pile([cards.get_card_from_id(_id) for _id in ids])

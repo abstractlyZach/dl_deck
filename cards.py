@@ -1,8 +1,6 @@
 import enum
 
 
-
-
 class CardIds(enum.Enum):
     ACTION = 0
     STUNT = 1
@@ -14,6 +12,7 @@ class CardIds(enum.Enum):
     SUPER_REACT = 7
     PROFICIENT_DRAW = 8
     BOON = 9
+
 
 class Card:
     _id: CardIds

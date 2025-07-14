@@ -14,14 +14,20 @@ class GameState:
 
     Any class that has a trigger or an action must do so through this class.
     """
+
     _deck: Pile
     _hand: Pile
     _discard: Pile
     _proficiency_bonus: int
     _game_action_stack: list[str]
 
-    def __init__(self, proficiency_bonus: int = DEFAULT_PROFICIENCY_BONUS, deck: Pile = None, hand: Pile = None,
-                 discard: Pile = None):
+    def __init__(
+        self,
+        proficiency_bonus: int = DEFAULT_PROFICIENCY_BONUS,
+        deck: Pile = None,
+        hand: Pile = None,
+        discard: Pile = None,
+    ):
         if not deck:
             deck = Pile()
         self._deck = deck

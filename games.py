@@ -18,6 +18,7 @@ class GameState:
     _discard: Pile
     _proficiency_bonus: int
     _game_action_stack: list[str]
+    _verbosity_level: int
 
     def __init__(
         self,
@@ -25,7 +26,9 @@ class GameState:
         deck: Pile = None,
         hand: Pile = None,
         discard: Pile = None,
+        verbosity_level: int = 0,
     ):
+        self._verbosity_level = verbosity_level
         if not deck:
             deck = Pile()
         self._deck = deck
@@ -113,6 +116,8 @@ class GameState:
             card = self._deck.draw()
         self._hand.insert_right(card)
         self._on_draw(card)
+        if self._verbosity_level >= 1:
+            print(f"    Drew card: {card}")
 
     def _recycle_discard(self) -> None:
         discards = self._discard.draw_all()

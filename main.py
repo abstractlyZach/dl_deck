@@ -18,7 +18,7 @@ CARD_COUNTS = {
 
 def main():
     deck = build_deck()
-    game_state = games.GameState(deck=deck, proficiency_bonus=4)
+    game_state = games.GameState(deck=deck, proficiency_bonus=4, verbosity_level=1)
     game_state.shuffle_deck()
     run(game_state)
 

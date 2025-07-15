@@ -1,5 +1,3 @@
-from typing import Iterable
-
 import cards
 from cards import Card
 from piles import Pile, NoCardsInPileException

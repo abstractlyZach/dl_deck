@@ -63,7 +63,7 @@ class Pile:
         self.insert_bottom(card)
 
     def remove_at(self, i: int) -> Card:
-        if not (0 < i < self.size()):
+        if not (0 <= i < self.size()):
             raise Exception(
                 f"Cannot remove card at index {i} in a Pile of size {self.size()}"
             )

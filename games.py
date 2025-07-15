@@ -48,8 +48,10 @@ class GameState:
                 self._deck.insert_top(card)
         self._deck.shuffle()
 
-    def get_hand_str(self) -> str:
-        return str(self._hand)
+    def get_hand_str(self, indent=0) -> str:
+        to_return = [f"{' ' * indent}Current hand:",
+                     self._hand.get_show_str(indent=indent+4)]
+        return '\n'.join(to_return)
 
     def get_hand_card_ids(self) -> list[cards.CardIds]:
         return self._hand.get_all_ids()
@@ -127,3 +129,6 @@ class GameState:
                     self._game_action_stack.append(DRAW)
             case _:
                 pass
+
+    def shuffle_deck(self) -> None:
+        self._deck.shuffle()

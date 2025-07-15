@@ -23,9 +23,12 @@ class Pile:
         self._cards = deque(_cards)
 
     def __str__(self):
+        return self.get_show_str()
+
+    def get_show_str(self, indent=0):
         text_lines = []
         for i, card in enumerate(self._cards):
-            text_lines.append(f"{i}: {card}")
+            text_lines.append(f"{' ' * indent}{i}: {card}")
         return "\n".join(text_lines)
 
     def empty(self) -> bool:

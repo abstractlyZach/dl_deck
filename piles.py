@@ -7,12 +7,14 @@ from cards import Card, CardIds
 
 
 class Pile:
-    """A collection of Cards"""
+    """A collection of Cards
 
-    # Top of Pile is the 0th index
-    # Bottom of Pile is the largest index
-    # This means that you can pass an ordered list and expect cards to be
-    # drawn in the same order of the list
+    - Top of Pile is the 0th index
+    - Bottom of Pile is the largest index
+    - This means that you can pass an ordered list and expect cards to be
+       drawn in the same order of the list
+    """
+
     _cards: deque[Card]
 
     def __init__(self, _cards=None):

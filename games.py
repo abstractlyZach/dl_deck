@@ -54,6 +54,13 @@ class GameState:
     def get_hand_card_ids(self) -> list[cards.CardIds]:
         return self._hand.get_all_ids()
 
+    def get_discard_card_ids(self) -> list[cards.CardIds]:
+        return self._discard.get_all_ids()
+
+    def discard_at(self, i: int) -> None:
+        discarded_card = self._hand.remove_at(i)
+        self._discard.insert_top(discarded_card)
+
     def draw_cards(self, x: int) -> None:
         for _ in range(x):
             self._game_action_stack.append(DRAW)

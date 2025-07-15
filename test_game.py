@@ -82,3 +82,24 @@ def test_drawing_proficiency_bonus():
         CardIds.BOON,
         CardIds.BOON,
     ]
+
+
+def test_discard():
+    hand = piles.get_pile_from_ids(
+        [
+            CardIds.BOON,
+            CardIds.ACTION,
+            CardIds.REACT,
+            CardIds.SPRINT,
+        ]
+    )
+    game = games.GameState(hand=hand)
+
+    game.discard_at(1)
+
+    assert game.get_discard_card_ids() == [CardIds.ACTION]
+    assert game.get_hand_card_ids() == [
+        CardIds.BOON,
+        CardIds.REACT,
+        CardIds.SPRINT,
+    ]

@@ -60,6 +60,17 @@ class Pile:
         """Some piles like to be displayed left to right, like the hand."""
         self.insert_bottom(card)
 
+    def remove_at(self, i: int) -> Card:
+        if not (0 < i < self.size()):
+            raise Exception(
+                f"Cannot remove card at index {i} in a Pile of size {self.size()}"
+            )
+        # deques don't support arbitrary index removal, so we do it ourselves
+        self._cards.rotate(-i)
+        removed_card = self._cards.popleft()
+        self._cards.rotate(i)
+        return removed_card
+
 
 class NoCardsInPileException(RuntimeError):
     pass

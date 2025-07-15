@@ -52,13 +52,14 @@ class Pile:
     def insert_bottom(self, card: Card) -> None:
         self._cards.append(card)
 
-    def insert_left(self, card:Card)-> None:
+    def insert_left(self, card: Card) -> None:
         """Some piles like to be displayed left to right, like the hand."""
         self.insert_top(card)
 
-    def insert_right(self, card:Card)-> None:
+    def insert_right(self, card: Card) -> None:
         """Some piles like to be displayed left to right, like the hand."""
         self.insert_bottom(card)
+
 
 class NoCardsInPileException(RuntimeError):
     pass

@@ -61,6 +61,15 @@ class GameState:
         discarded_card = self._hand.remove_at(i)
         self._discard.insert_top(discarded_card)
 
+    def discard_multiple(self, indices: list[int]) -> None:
+        # remove from largest to smallest index so that earlier removals don't mess up
+        # indexing for later removals
+        indices = sorted(indices, reverse=True)
+        # slightly inefficient because we do multiple passes, but we'll survive somehow.
+        for index in indices:
+            self.discard_at(index)
+
+
     def draw_cards(self, x: int) -> None:
         for _ in range(x):
             self._game_action_stack.append(DRAW)

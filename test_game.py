@@ -103,3 +103,22 @@ def test_discard():
         CardIds.REACT,
         CardIds.SPRINT,
     ]
+
+def test_discard_multiple():
+    hand = piles.get_pile_from_ids(
+        [
+            CardIds.BOON,
+            CardIds.ACTION,
+            CardIds.REACT,
+            CardIds.SPRINT,
+        ]
+    )
+    game = games.GameState(hand=hand)
+
+    game.discard_multiple([0,3])
+
+    assert game.get_discard_card_ids() == [CardIds.BOON, CardIds.SPRINT]
+    assert game.get_hand_card_ids() == [
+        CardIds.ACTION,
+        CardIds.REACT,
+    ]

@@ -98,7 +98,7 @@ class GameState:
         self._deck.shuffle()
 
     def _on_draw(self, card: Card):
-        match card._id:
+        match card.id:
             case cards.CardIds.LOOT:
                 self._game_action_stack.append(DISCARD)
             case cards.CardIds.PROFICIENT_DRAW:

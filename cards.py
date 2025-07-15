@@ -19,6 +19,10 @@ class Card:
     _name: str
     _description: str
 
+    @property
+    def id(self) -> CardIds:
+        return self._id
+
     def __repr__(self):
         return f"{self._name}"
 

@@ -44,7 +44,7 @@ class Pile:
         yield self._cards.popleft()
 
     def get_all_ids(self) -> list[CardIds]:
-        return [card._id for card in self._cards]
+        return [card.id for card in self._cards]
 
     def insert_top(self, card: Card) -> None:
         self._cards.appendleft(card)

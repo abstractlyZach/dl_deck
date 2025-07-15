@@ -1,5 +1,6 @@
 import random
 from typing import Iterable
+from collections import deque
 
 import cards
 from cards import Card, CardIds
@@ -8,14 +9,16 @@ from cards import Card, CardIds
 class Pile:
     """A collection of Cards"""
 
-    # Top of Pile is the largest index
-    # Bottom of Pile is the 0th index.
-    _cards: list[Card]
+    # Top of Pile is the 0th index
+    # Bottom of Pile is the largest index
+    # This means that you can pass an ordered list and expect cards to be
+    # drawn in the same order of the list
+    _cards: deque[Card]
 
     def __init__(self, _cards=None):
         if not _cards:
             _cards = []
-        self._cards = _cards
+        self._cards = deque(_cards)
 
     def __str__(self):
         text_lines = []
@@ -35,24 +38,27 @@ class Pile:
     def draw(self) -> Card:
         if not self._cards:
             raise NoCardsInPileException("Attempted to draw from an empty Pile.")
-        return self._cards.pop()
+        return self._cards.popleft()
 
     def draw_all(self) -> Iterable[Card]:
-        yield self._cards.pop()
+        yield self._cards.popleft()
 
-    def get_all_ids(self) -> Iterable[CardIds]:
+    def get_all_ids(self) -> list[CardIds]:
         return [card._id for card in self._cards]
 
-    def insert_x_from_bottom(self, card: Card, x: int) -> None:
-        """Inserts the card x away from the bottom of the Pile."""
-        self._cards.insert(x, card)
-
     def insert_top(self, card: Card) -> None:
-        self._cards.append(card)
+        self._cards.appendleft(card)
 
     def insert_bottom(self, card: Card) -> None:
-        self.insert_x_from_bottom(card, 0)
+        self._cards.append(card)
 
+    def insert_left(self, card:Card)-> None:
+        """Some piles like to be displayed left to right, like the hand."""
+        self.insert_top(card)
+
+    def insert_right(self, card:Card)-> None:
+        """Some piles like to be displayed left to right, like the hand."""
+        self.insert_bottom(card)
 
 class NoCardsInPileException(RuntimeError):
     pass

@@ -53,7 +53,7 @@ class GameState:
     def get_hand_str(self) -> str:
         return str(self._hand)
 
-    def get_hand_card_ids(self) -> Iterable[cards.CardIds]:
+    def get_hand_card_ids(self) -> list[cards.CardIds]:
         return self._hand.get_all_ids()
 
     def draw_cards(self, x: int) -> None:
@@ -88,7 +88,7 @@ class GameState:
         except NoCardsInPileException:
             self._recycle_discard()
             card = self._deck.draw()
-        self._hand.insert_top(card)
+        self._hand.insert_right(card)
         self._on_draw(card)
 
     def _recycle_discard(self) -> None:

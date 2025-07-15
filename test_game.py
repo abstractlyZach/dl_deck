@@ -104,6 +104,7 @@ def test_discard():
         CardIds.SPRINT,
     ]
 
+
 def test_discard_multiple():
     hand = piles.get_pile_from_ids(
         [
@@ -115,10 +116,48 @@ def test_discard_multiple():
     )
     game = games.GameState(hand=hand)
 
-    game.discard_multiple([0,3])
+    game.discard_multiple([0, 3])
 
     assert game.get_discard_card_ids() == [CardIds.BOON, CardIds.SPRINT]
     assert game.get_hand_card_ids() == [
         CardIds.ACTION,
         CardIds.REACT,
     ]
+
+
+def test_loot_card_in_pos_0():
+    deck = piles.get_pile_from_ids(
+        [
+            CardIds.LOOT,
+            CardIds.BOON,
+            CardIds.ACTION,
+            CardIds.REACT,
+            CardIds.SPRINT,
+        ]
+    )
+    game = games.GameState(deck=deck)
+
+    game.draw_cards(1)
+
+    assert game.get_discard_card_ids() == [CardIds.LOOT]
+    assert game.get_hand_card_ids() == [CardIds.BOON, CardIds.ACTION]
+    assert game.get_deck_card_ids() == [CardIds.REACT, CardIds.SPRINT]
+
+
+def test_loot_card_in_pos_1():
+    deck = piles.get_pile_from_ids(
+        [
+            CardIds.BOON,
+            CardIds.LOOT,
+            CardIds.ACTION,
+            CardIds.REACT,
+            CardIds.SPRINT,
+        ]
+    )
+    game = games.GameState(deck=deck)
+
+    game.draw_cards(2)
+
+    assert game.get_discard_card_ids() == [CardIds.LOOT]
+    assert game.get_hand_card_ids() == [CardIds.BOON, CardIds.ACTION, CardIds.REACT]
+    assert game.get_deck_card_ids() == [CardIds.SPRINT]

@@ -73,6 +73,15 @@ class Pile:
         self._cards.rotate(i)
         return removed_card
 
+    def remove_by_id(self, id_: CardIds) -> Card:
+        looking_for = cards.get_card_from_id(id_)
+        try:
+            index_to_pop = self._cards.index(looking_for)
+        except ValueError:
+            raise ValueError(f"Could not find card with ID {id_} in Pile.")
+
+        return self.remove_at(index_to_pop)
+
 
 class NoCardsInPileException(RuntimeError):
     pass

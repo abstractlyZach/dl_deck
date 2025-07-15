@@ -1,9 +1,9 @@
 import cards
-from cards import Card
+from cards import Card, CardIds
 from piles import Pile, NoCardsInPileException
 
 DRAW: str = "draw"
-DISCARD: str = "discard"
+DISCARD_LOOT_CARD: str = "discard"
 DEFAULT_PROFICIENCY_BONUS: int = 4
 
 
@@ -57,6 +57,9 @@ class GameState:
     def get_discard_card_ids(self) -> list[cards.CardIds]:
         return self._discard.get_all_ids()
 
+    def get_deck_card_ids(self) -> list[cards.CardIds]:
+        return self._deck.get_all_ids()
+
     def discard_at(self, i: int) -> None:
         discarded_card = self._hand.remove_at(i)
         self._discard.insert_top(discarded_card)
@@ -69,6 +72,9 @@ class GameState:
         for index in indices:
             self.discard_at(index)
 
+    def _discard_card_with_id(self, id_: CardIds) -> None:
+        discarded_card = self._hand.remove_by_id(id_)
+        self._discard.insert_top(discarded_card)
 
     def draw_cards(self, x: int) -> None:
         for _ in range(x):
@@ -85,9 +91,10 @@ class GameState:
         action = self._game_action_stack.pop()
         if action == DRAW:
             self._draw_card()
-        elif action == DISCARD:
-            # The only discard
-            pass
+        elif action == DISCARD_LOOT_CARD:
+            self._discard_card_with_id(CardIds.LOOT)
+            for _ in range(2):
+                self._game_action_stack.append(DRAW)
         else:
             raise Exception("unrecognized game action")
 
@@ -114,7 +121,7 @@ class GameState:
     def _on_draw(self, card: Card):
         match card.id:
             case cards.CardIds.LOOT:
-                self._game_action_stack.append(DISCARD)
+                self._game_action_stack.append(DISCARD_LOOT_CARD)
             case cards.CardIds.PROFICIENT_DRAW:
                 for _ in range(self._proficiency_bonus):
                     self._game_action_stack.append(DRAW)

@@ -85,6 +85,14 @@ class Pile:
 
         return self.remove_at(index_to_pop)
 
+    def only_has_exceptional_cards(self) -> bool:
+        """Lets the caller know that there are only exceptional cards in the pile.
+
+        It's good for stopping a stack overflow when there are only LOOT cards in
+        the deck for example.
+        """
+        return all(card.id == CardIds.LOOT for card in self._cards)
+
 
 class NoCardsInPileException(RuntimeError):
     pass

@@ -52,9 +52,11 @@ class GameState:
         self._deck.shuffle()
 
     def get_hand_str(self, indent=0) -> str:
-        to_return = [f"{' ' * indent}Current hand:",
-                     self._hand.get_show_str(indent=indent+4)]
-        return '\n'.join(to_return)
+        to_return = [
+            f"{' ' * indent}Current hand:",
+            self._hand.get_show_str(indent=indent + 4),
+        ]
+        return "\n".join(to_return)
 
     def get_hand_card_ids(self) -> list[cards.CardIds]:
         return self._hand.get_all_ids()
@@ -112,7 +114,13 @@ class GameState:
         try:
             card = self._deck.draw()
         except NoCardsInPileException:
-            self._recycle_discard()
+            try:
+                self._recycle_discard()
+            except CantDrawBecauseOfExceptionalCards:
+                print(
+                    f"    Cannot draw more cards because there are only weird cards left"
+                )
+                return
             card = self._deck.draw()
         self._hand.insert_right(card)
         self._on_draw(card)
@@ -120,6 +128,8 @@ class GameState:
             print(f"    Drew card: {card}")
 
     def _recycle_discard(self) -> None:
+        if self._discard.only_has_exceptional_cards():
+            raise CantDrawBecauseOfExceptionalCards()
         discards = self._discard.draw_all()
         for card in discards:
             self._deck.insert_top(card)
@@ -137,3 +147,7 @@ class GameState:
 
     def shuffle_deck(self) -> None:
         self._deck.shuffle()
+
+
+class CantDrawBecauseOfExceptionalCards(Exception):
+    pass

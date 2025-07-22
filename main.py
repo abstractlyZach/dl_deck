@@ -81,12 +81,14 @@ def _discard(command, gamestate):
     except ValueError:
         print("Please specify valid indexes to discard.")
 
+
 def _show_hand(game_state: games.GameState):
     print(game_state.get_hand_str())
 
 
 class UserRequestedQuit(Exception):
     pass
+
 
 class InvalidCommand(Exception):
     pass
